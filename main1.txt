@@ -1,0 +1,51 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"net/http"
+)
+
+const portNumber = ":8080"
+
+func Home(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "This is thr home page")
+}
+
+func About(w http.ResponseWriter, r *http.Request) {
+	sum, err := AddValues(2, 2)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Fprintf(w, fmt.Sprintf("This is thr about page %d", sum))
+}
+
+func Divide(w http.ResponseWriter, r *http.Request) {
+	f, err := divideValues(100.0, 0.0)
+	if err != nil {
+		fmt.Fprintf(w, "Cannot divide by 0")
+		return
+	}
+	fmt.Fprintf(w, fmt.Sprintf("%v", f))
+}
+
+func AddValues(x, y int) (int, error) {
+	return x + y, nil
+}
+
+func divideValues(x, y float32) (float32, error) {
+	if y == 0 {
+		return 0, errors.New("Number is negative")
+	}
+	return x / y, nil
+}
+
+func main() {
+	http.HandleFunc("/", Home)
+	http.HandleFunc("/about", About)
+	http.HandleFunc("/divide", Divide)
+
+	fmt.Println(fmt.Sprintf("Starting%s", portNumber))
+
+	_ = http.ListenAndServe(portNumber, nil)
+}
