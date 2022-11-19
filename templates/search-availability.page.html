@@ -8,7 +8,8 @@
       <div class="col">
         <h1 class="mt-5">Search</h1>
 
-        <form action="/reservation.html" method="get">
+        <form action="/search-availability" method="POST">
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Starting date</label>
             <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate">
@@ -17,8 +18,8 @@
 
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Ending date</label>
-            <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate">
-            <div id="startDate" class="form-text">Inter date</div>
+            <input required type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate">
+            <div id="endDate" class="form-text">Inter date</div>
           </div>
  
           <button type="submit" id="myButton" class="btn btn-primary">Submit</button>
@@ -30,7 +31,7 @@
 
 {{end}}
   {{define "js"}}
-  <script src="https://unpkg.com/notie"></script>
+  <!-- <script src="https://unpkg.com/notie"></script>
   <script>
   
     document.getElementById("myButton").addEventListener("click", function() {
@@ -59,5 +60,5 @@
       text: msg,
   })
     }
-   </script>
+   </script> -->
 {{end}}
