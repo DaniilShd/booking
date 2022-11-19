@@ -1,0 +1,63 @@
+{{ template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+          
+    <div class="row">
+      <div class="col">
+        <h1 class="mt-5">Search</h1>
+
+        <form action="/reservation.html" method="get">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Starting date</label>
+            <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate">
+            <div id="startDate" class="form-text">Inter date</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Ending date</label>
+            <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate">
+            <div id="startDate" class="form-text">Inter date</div>
+          </div>
+ 
+          <button type="submit" id="myButton" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+
+{{end}}
+  {{define "js"}}
+  <script src="https://unpkg.com/notie"></script>
+  <script>
+  
+    document.getElementById("myButton").addEventListener("click", function() {
+      notify("this is message")
+    })
+    
+    
+    
+    function notify(msg, msgType) {
+      notie.alert({
+      type: "success", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+      text: msg,
+  })
+    }
+  
+    function alertError(msg) {
+      notie.alert({
+      type: "error", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+      text: msg,
+  })
+    }
+  
+    function alertWarning(msg) {
+      notie.alert({
+      type: "warning", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+      text: msg,
+  })
+    }
+   </script>
+{{end}}

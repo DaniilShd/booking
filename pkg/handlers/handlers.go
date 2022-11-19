@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/DaniilShd/WebApp/pkg/config"
-	"github.com/DaniilShd/WebApp/pkg/models"
-	"github.com/DaniilShd/WebApp/pkg/render"
+	"github.com/DaniilShd/booking/pkg/config"
+	"github.com/DaniilShd/booking/pkg/models"
+	"github.com/DaniilShd/booking/pkg/render"
 )
 
 // Repo the repository used by the hendlers
@@ -46,4 +46,23 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
 		StringMap: stringMap,
 	})
+}
+
+func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "generals.page.html", &models.TemplateData{})
+}
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "make-rervation.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "majors.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "search-availability.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "contact.page.html", &models.TemplateData{})
 }

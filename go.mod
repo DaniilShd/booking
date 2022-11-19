@@ -1,4 +1,4 @@
-module github.com/DaniilShd/WebApp
+module github.com/DaniilShd/booking
 
 go 1.19
 

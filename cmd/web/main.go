@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/DaniilShd/WebApp/pkg/config"
-	"github.com/DaniilShd/WebApp/pkg/handlers"
-	"github.com/DaniilShd/WebApp/pkg/render"
+	"github.com/DaniilShd/booking/pkg/config"
+	"github.com/DaniilShd/booking/pkg/handlers"
+	"github.com/DaniilShd/booking/pkg/render"
 	"github.com/alexedwards/scs/v2"
 )
 
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = true
+	app.UseCache = false
 	render.NewTemplates(&app)
 
 	handlers.NewHandlers(handlers.NewRepository(&app))
