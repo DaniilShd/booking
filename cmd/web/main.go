@@ -19,13 +19,13 @@ var session *scs.SessionManager
 func main() {
 
 	// change this to true when in production
-	app.InProdaction = false
+	app.InProduction = false
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = app.InProdaction
+	session.Cookie.Secure = app.InProduction
 
 	app.Session = session
 

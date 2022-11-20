@@ -8,27 +8,42 @@
       <div class="col">
         <h1 class="mt-5">Make reservation</h1>
 
-        <form action="" method="post"> 
 
+        {{$res := index .Data "reservation"}}
 
+        <form action="/make-reservation" method="post" class="" novalidate> 
+
+          <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
           <div class="mb-3">
             <label for="first_name" class="form-label">First name</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" required>
+            {{with .Form.Errors.Get "first_name"}}
+            <label for="" class="text-danger">{{.}}</label>
+            {{end}}
+            <input type="text" value="{{$res.FirstName}}" class="form-control {{with .Form.Errors.Get "first_name"}} is-invalid {{end}}" id="first_name" name="first_name" required>
           </div>
 
           <div class="mb-3">
               <label for="last_name" class="form-label">Last name</label>
-              <input required type="text" class="form-control" id="last_name" name="last_name">
+              {{with .Form.Errors.Get "last_name"}}
+              <label for="" class="text-danger">{{.}}</label>
+              {{end}}
+              <input required type="text" value="{{$res.LastName}}" class="form-control" id="last_name" name="last_name">
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input required type="email" class="form-control" id="email" name="email">
+              {{with .Form.Errors.Get "email"}}
+              <label for="" class="text-danger">{{.}}</label>
+              {{end}}
+              <input required type="email" value="{{$res.Email}}" class="form-control" id="email" name="email">
             </div>
 
             <div class="mb-3">
               <label for="phone" class="form-label">Phone</label>
-              <input required type="text" class="form-control" id="phone" name="phone" >
+              {{with .Form.Errors.Get "phone"}}
+              <label for="" class="text-danger">{{.}}</label>
+              {{end}}
+              <input required type="text"  value="{{$res.Phone}}" class="form-control" id="phone" name="phone" >
             </div>
  
           <button type="submit" class="btn btn-primary">Submit</button>
