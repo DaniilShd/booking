@@ -3,6 +3,9 @@ package forms
 import (
 	"net/http"
 	"net/url"
+	"strings"
+
+	"github.com/asaskevich/govalidator"
 )
 
 type Form struct {
@@ -23,6 +26,16 @@ func New(data url.Values) *Form {
 	}
 }
 
+// Cheks for Required fields
+func (f *Form) Required(fields ...string) {
+	for _, field := range fields {
+		value := f.Get(field)
+		if strings.TrimSpace(value) == "" {
+			f.Errors.Add(field, "This cannot be blank")
+		}
+	}
+}
+
 // Has checks if form field is in post and not empty
 func (f *Form) Has(field string, r *http.Request) bool {
 	x := r.Form.Get(field)
@@ -32,3 +45,28 @@ func (f *Form) Has(field string, r *http.Request) bool {
 	}
 	return true
 }
+
+// Check for string length
+func (f *Form) MinLength(field string, length int, r *http.Request) bool {
+	x := r.Form.Get(field)
+	if len(x) < length {
+		f.Errors.Add(field, "This field must be more")
+		return false
+	}
+	return true
+}
+
+func (f *Form) IsEmail(field string) {
+	if !govalidator.IsEmail(f.Get(field)) {
+		f.Errors.Add(field, "This no email")
+	}
+}
+
+// func (f *Form) MinLength(fields ...string) {
+// 	for _, field := range fields {
+// 		value := f.Get(field)
+// 		if len(strings.TrimSpace(value)) < 5 {
+// 			f.Errors.Add(field, "Very short string")
+// 		}
+// 	}
+// }
