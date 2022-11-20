@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/DaniilShd/booking/pkg/config"
-	"github.com/DaniilShd/booking/pkg/models"
-	"github.com/DaniilShd/booking/pkg/render"
+	"github.com/DaniilShd/booking/internal/config"
+	"github.com/DaniilShd/booking/internal/models"
+	"github.com/DaniilShd/booking/internal/render"
 )
 
 // Repo the repository used by the hendlers
