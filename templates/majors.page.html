@@ -18,10 +18,141 @@
     </div>
     <div class="row">
       <div class="col text-center">
-        <a href="/search-availability" class="btn btn-success">Check Availability</a>
+        <!-- <a href="/search-availability" class="btn btn-success">Check Availability</a> -->
+        <button type="submit" id="myButton" class="btn btn-primary">Check Availability</button>
       </div>
     </div>
     
   </div>
 
-{{end}}
+  {{end}}
+
+  {{ define "js"}}
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+ <script>
+
+  let attention = Prompt();
+  
+  document.getElementById("myButton").addEventListener("click", function() {
+
+    // notify("this is message")
+    let html = `
+    <form id ="check-availability-form" action="" method="post" novalidation class="needs-validation">
+           <div class="form-row">
+            <div class="col">
+              <div class="form-row" id="reservation-dates-modal">
+                <div class="col">
+                  <input required type="text" class="form-control" name="start" id="start" placeholder="arrival">
+                </div>
+                <div class="col">
+                  <input required type="text" class="form-control" name="end" id="end" placeholder="departure">
+                </div>
+              </div>
+            </div>
+           </div>
+           
+        </form>
+    `
+    
+    
+    attention.custom({msg: html});
+  })
+  
+  
+  
+  function notify(msg, msgType) {
+    notie.alert({
+    type: "success", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+    text: msg,
+})
+  }
+
+  function alertError(msg) {
+    notie.alert({
+    type: "error", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+    text: msg,
+})
+  }
+
+  function alertWarning(msg) {
+    notie.alert({
+    type: "warning", // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+    text: msg,
+})
+  }
+
+  function Prompt() {
+    let toast = function(c) {
+      const {
+        msg = "",
+        icon = "success",
+        position = "top-end",
+      } = c;
+      const Toast = Swal.mixin({
+        toast: true,
+        title: msg,
+        position: position,
+        icon: icon,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+
+      })
+    }
+    let success = function() {
+      console.log("Clicked button and got success");
+    }
+
+    async function custom(c) {
+      const {
+        msg = "",
+        title = "",
+      } = c;
+    
+
+    const {value : result} = await Swal.fire({
+      title: title, 
+      html: msg,
+      backdrop: false,
+      focusConfirm: false, 
+      showCancelButton: true,
+      preConfirm: () => {
+        return [
+          document.getElementById('start').value,
+          document.getElementById('end').value
+      ]
+      },
+      didOpen: () => {
+        document.getElementById('start').removeAttribute('disabled');
+        document.getElementById('end').removeAttribute('disabled');
+      }
+    })
+
+    if (result) {
+      Swal.fire(JSON.stringify(result))
+    }
+  }
+   
+
+
+return {
+  toast: toast,
+  success: success, 
+  custom: custom, 
+}
+  }
+ </script>
+
+  {{end}}
+
+
