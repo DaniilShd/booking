@@ -309,10 +309,52 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: reservation_email_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX reservation_email_idx ON public.reservation USING btree (email);
+
+
+--
+-- Name: reservation_last_name_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX reservation_last_name_idx ON public.reservation USING btree (last_name);
+
+
+--
+-- Name: room_restriction_reservation_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX room_restriction_reservation_id_idx ON public.room_restriction USING btree (reservation_id);
+
+
+--
+-- Name: room_restriction_room_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX room_restriction_room_id_idx ON public.room_restriction USING btree (room_id);
+
+
+--
+-- Name: room_restriction_start_date_end_date_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX room_restriction_start_date_end_date_idx ON public.room_restriction USING btree (start_date, end_date);
+
+
+--
 -- Name: schema_migration_version_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USING btree (version);
+
+
+--
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX users_email_idx ON public.users USING btree (email);
 
 
 --
@@ -321,6 +363,14 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 ALTER TABLE ONLY public.reservation
     ADD CONSTRAINT reservation_rooms_id_fk FOREIGN KEY (room_id) REFERENCES public.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: room_restriction room_restriction_reservation_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.room_restriction
+    ADD CONSTRAINT room_restriction_reservation_id_fk FOREIGN KEY (reservation_id) REFERENCES public.reservation(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
