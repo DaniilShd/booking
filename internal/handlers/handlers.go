@@ -126,7 +126,7 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.Marshal(resp)
 	if err != nil {
-		helpers.ServerError()
+		helpers.ServerError(w, err)
 	}
 
 	log.Println(string(out))
