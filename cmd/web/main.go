@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/DaniilShd/booking/internal/config"
+	"github.com/DaniilShd/booking/internal/driver"
 	"github.com/DaniilShd/booking/internal/handlers"
 	"github.com/DaniilShd/booking/internal/helpers"
 	"github.com/DaniilShd/booking/internal/models"
@@ -24,10 +26,11 @@ var errorLog *log.Logger
 
 func main() {
 
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -38,9 +41,12 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// what am i going to put in the session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	// change this to true when in production
 	app.InProduction = false
@@ -59,18 +65,28 @@ func run() error {
 
 	app.Session = session
 
+	//connect to database
+	log.Println("Connecting to database...")
+	dsn := fmt.Sprintf("host=localhost port=5432 dbname=booking user=testuser password=1234")
+	db, err := driver.ConnectSQL(dsn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.SQL.Close()
+	log.Println("Connected to database!")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
-	handlers.NewHandlers(handlers.NewRepository(&app))
+	handlers.NewHandlers(handlers.NewRepository(&app, db))
 
-	return nil
+	return db, nil
 }

@@ -21,7 +21,7 @@ var pathToTemplate = "./templates"
 var app *config.AppConfig
 
 // sets the config for the template
-func NewTemplates(a *config.AppConfig) {
+func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
@@ -33,7 +33,7 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
-func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
+func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -78,12 +78,12 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		log.Fatal(err)
 		return myCache, err
 	}
-	fmt.Println(pages)
+	// fmt.Println(pages)
 
 	for _, page := range pages {
 		name := filepath.Base(page)
 
-		fmt.Println(name)
+		// fmt.Println(name)
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			log.Fatal(err)
