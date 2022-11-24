@@ -41,7 +41,7 @@ type Reservation struct {
 	EndDate   time.Time
 	RoomID    int
 	CreatedAt time.Time
-	UpdateAt  time.Time
+	UpdatedAt time.Time
 	Room      Room
 }
 
