@@ -46,7 +46,7 @@ func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.Te
 	t, ok := tc[tmpl]
 	if !ok {
 		log.Fatal("myerr TC")
-		return errors.New("New erorr temolate")
+		return errors.New("New erorr template")
 	}
 
 	buf := new(bytes.Buffer)

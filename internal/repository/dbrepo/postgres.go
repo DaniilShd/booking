@@ -145,3 +145,50 @@ func (m *postgresDBRepo) GetRoomByID(id int) (models.Room, error) {
 	}
 	return room, nil
 }
+
+// Return user by id
+func (m *postgresDBRepo) GetUsersByID(id int) (models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+
+	query := `select id, first_name, last_name, email, password, access_level, created_at, updated_at 
+	from users where id = $1`
+
+	row := m.DB.QueryRowContext(ctx, query, id)
+
+	var user models.User
+	err := row.Scan(
+		&user.ID,
+		&user.FirstName,
+		&user.LastName,
+		&user.Email,
+		&user.Password,
+		&user.AccessLevel,
+		&user.CreatedAt,
+		&user.UpdateAt,
+	)
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+// Update user in database
+func (m *postgresDBRepo) UpdateUser(user models.User) error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+
+	query := `update users set first_name = $1, last_name = $2, email = $3, access_level = $4, updated_at = $5`
+
+	_, err := m.DB.ExecContext(ctx, query,
+		user.FirstName,
+		user.LastName,
+		user.Email,
+		user.AccessLevel,
+		user.UpdateAt,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}

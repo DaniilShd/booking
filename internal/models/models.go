@@ -1,8 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
-//User is the users models
+// User is the users models
 type User struct {
 	ID          int
 	FirstName   string
@@ -14,7 +16,7 @@ type User struct {
 	UpdateAt    time.Time
 }
 
-//Room is the rooms model
+// Room is the rooms model
 type Room struct {
 	ID        int
 	RoomName  string
@@ -22,7 +24,7 @@ type Room struct {
 	UpdateAt  time.Time
 }
 
-//Restriction is Restrictions model
+// Restriction is Restrictions model
 type Restriction struct {
 	ID              int
 	RestrictionName string
@@ -30,7 +32,7 @@ type Restriction struct {
 	UpdateAt        time.Time
 }
 
-//Reservation is reservation model
+// Reservation is reservation model
 type Reservation struct {
 	ID        int
 	FirstName string
@@ -45,7 +47,7 @@ type Reservation struct {
 	Room      Room
 }
 
-//RoomRestriction is the restriction model
+// RoomRestriction is the restriction model
 type RoomRestriction struct {
 	ID            int
 	RoomID        int
@@ -57,4 +59,13 @@ type RoomRestriction struct {
 	UpdateAt      time.Time
 	Room          Room
 	Reservation   Reservation
+}
+
+// MailData holds an email message
+type MailData struct {
+	To       string
+	From     string
+	Subject  string
+	Content  string
+	Template string
 }

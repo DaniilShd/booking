@@ -193,6 +193,24 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		helpers.ServerError(w, err)
 	}
 
+	// send notification - first to quest
+
+	htmlMessage := fmt.Sprintf(`
+	<strong>Reservation Confirm</strong>
+	Dear: %s, <br>,
+	This is confirm your reservation from %s to %s.
+	`, reservation.FirstName, reservation.Startdate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
+
+	msg := models.MailData{
+		To:       reservation.Email,
+		From:     "me@here.com",
+		Subject:  "Reservation Confirmation",
+		Content:  htmlMessage,
+		Template: "basic.html",
+	}
+
+	m.App.MailChan <- msg
+
 	m.App.Session.Put(r.Context(), "reservation", reservation)
 
 	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
@@ -334,4 +352,10 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 	m.App.Session.Put(r.Context(), "reservation", res)
 
 	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
+}
+
+func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "login.page.html", &models.TemplateData{
+		Form: forms.New(nil),
+	})
 }
