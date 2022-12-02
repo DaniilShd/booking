@@ -4,14 +4,14 @@
 
 <div class="container">
     <h1>Login</h1>
-    <form action="">
+    <form action="/user/login" method="post">
         <div class="mb-3">
-        
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
             <label for="email" class="form-label">Email</label>
             {{with .Form.Errors.Get "email"}}
             <label for="" class="text-danger">{{.}}</label>
             {{end}}
-            <input type="text" value="" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" id="email" name="email" required>
+            <input type="text" value="" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" id="email" name="email">
           </div>
 
           <div class="mb-3">
@@ -20,7 +20,7 @@
             {{with .Form.Errors.Get "password"}}
             <label for="" class="text-danger">{{.}}</label>
             {{end}}
-            <input type="text" value="" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" id="password" name="password" required>
+            <input type="password" value="" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" id="password" name="password">
           </div>
 
           <hr>
